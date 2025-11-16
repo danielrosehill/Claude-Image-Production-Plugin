@@ -1,0 +1,32 @@
+{
+  "name": "image-editing",
+  "description": "Claude Code plugin for image processing, photo editing, batch image operations, and visual media management.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Daniel Rosehill",
+    "email": "public@danielrosehill.com",
+    "url": "https://danielrosehill.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danielrosehill/image-editing-plugin"
+  },
+  "commands": [
+    "./commands/apply-filters.md",
+    "./commands/batch-resize.md",
+    "./commands/bg-removal.md",
+    "./commands/compress-images.md",
+    "./commands/convert-to-webp.md",
+    "./commands/crop-images.md",
+    "./commands/images-here.md",
+    "./commands/install-gimp-plugin.md",
+    "./commands/scrub-metadata.md",
+    "./commands/separate-photos-and-video.md",
+    "./commands/sort-media.md"
+  ],
+  "keywords": [
+    "media-editing",
+    "image-editing"
+  ]
+}
