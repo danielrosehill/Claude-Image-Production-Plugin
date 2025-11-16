@@ -1,4 +1,4 @@
-[![Claude Code Plugins Collection](https://img.shields.io/badge/Claude%20Code-Plugins%20Collection-blue?style=for-the-badge&logo=github)](https://github.com/danielrosehill/Claude-Code-Plugins)
+[![Claude Code View Marketplace](https://img.shields.io/badge/Claude%20Code-View%20Marketplace-blue?style=for-the-badge&logo=github)](https://github.com/danielrosehill/Claude-Code-Plugins)
 
 ## Image Editing Plugin
 
