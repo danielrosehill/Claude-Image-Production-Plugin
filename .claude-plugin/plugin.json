@@ -8,10 +8,7 @@
     "url": "https://danielrosehill.com"
   },
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/danielrosehill/image-editing-plugin"
-  },
+  "repository": "https://github.com/danielrosehill/image-editing-plugin",
   "commands": [
     "./commands/apply-filters.md",
     "./commands/batch-resize.md",
