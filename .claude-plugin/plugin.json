@@ -1,14 +1,14 @@
 {
-  "name": "image-editing",
-  "description": "Claude Code plugin for image processing, photo editing, batch image operations, and visual media management.",
-  "version": "1.0.0",
+  "name": "image-production",
+  "description": "Claude Code plugin for image editing, batch operations, format conversion, and filesystem organisation of image libraries — bucket by resolution, aspect ratio, orientation, format, EXIF capture time, camera, and dedupe duplicates / near-duplicates.",
+  "version": "2.0.0",
   "author": {
     "name": "Daniel Rosehill",
     "email": "public@danielrosehill.com",
     "url": "https://danielrosehill.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/danielrosehill/image-editing-plugin",
+  "repository": "https://github.com/danielrosehill/Claude-Image-Production-Plugin",
   "commands": [
     "./commands/apply-filters.md",
     "./commands/batch-resize.md",
@@ -16,14 +16,27 @@
     "./commands/compress-images.md",
     "./commands/convert-to-webp.md",
     "./commands/crop-images.md",
+    "./commands/dedupe.md",
+    "./commands/group-by-camera.md",
+    "./commands/group-by-time.md",
     "./commands/images-here.md",
     "./commands/install-gimp-plugin.md",
-    "./commands/scrub-metadata.md",
+    "./commands/organize-by-aspect-ratio.md",
+    "./commands/organize-by-format.md",
+    "./commands/organize-by-orientation.md",
+    "./commands/organize-by-resolution.md",
+    "./commands/scrub-small-images.md",
     "./commands/separate-photos-and-video.md",
     "./commands/sort-media.md"
   ],
+  "skills": [
+    "./skills/scrub-metadata/SKILL.md"
+  ],
   "keywords": [
     "media-editing",
-    "image-editing"
+    "image-editing",
+    "image-production",
+    "filesystem-organisation",
+    "exif"
   ]
 }
