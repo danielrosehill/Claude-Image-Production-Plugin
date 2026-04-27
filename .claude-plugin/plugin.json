@@ -1,7 +1,7 @@
 {
   "name": "image-production",
   "description": "Claude Code plugin for image editing, batch operations, format conversion, and filesystem organisation of image libraries — bucket by resolution, aspect ratio, orientation, format, EXIF capture time, camera, and dedupe duplicates / near-duplicates.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": {
     "name": "Daniel Rosehill",
     "email": "public@danielrosehill.com",
