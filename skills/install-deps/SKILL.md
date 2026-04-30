@@ -58,7 +58,8 @@ Ask before running. Fall back to system pip with `--break-system-packages` only 
 | `mozjpeg` (`cjpeg-mozjpeg`) | `which cjpeg-mozjpeg` | optional | `cargo install mozjpeg-cli` (or binary) | `brew install mozjpeg` |
 | `avifenc` | `which avifenc` | optional | `sudo apt install libavif-bin` | `brew install libavif` |
 | `cjxl` / `djxl` | `which cjxl` | optional | `sudo apt install libjxl-tools` | `brew install jpeg-xl` |
-| `realesrgan-ncnn-vulkan` | `which realesrgan-ncnn-vulkan` | optional | binary release from upstream | binary release from upstream |
+| `upscayl-bin` | `which upscayl-bin \|\| ls /opt/Upscayl/resources/bin/upscayl-bin 2>/dev/null` | optional | install Upscayl from <https://upscayl.org> (deb / flatpak / appimage) | install Upscayl from <https://upscayl.org> |
+| `realesrgan-ncnn-vulkan` (fallback) | `which realesrgan-ncnn-vulkan` | optional | binary release from upstream | binary release from upstream |
 | `darktable-cli` | `which darktable-cli` | optional | `sudo apt install darktable` (GUI + CLI) | `brew install darktable` |
 | `img2pdf` | `which img2pdf` | optional | `uv tool install img2pdf` (or `sudo apt install python3-img2pdf`) | `pipx install img2pdf` |
 
