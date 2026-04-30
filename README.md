@@ -51,6 +51,10 @@ A Claude Code plugin for image editing, batch operations, format conversion, and
 - **scrub-metadata** — strip EXIF / IPTC / XMP metadata from images using `exiftool`. Supports preview, backup-first, recursive operation, whitelist of fields to preserve (e.g. Orientation), and per-run logging. See `skills/scrub-metadata/SKILL.md`.
 - **fast-resize** — batch resize via libvips (5–10× ImageMagick on large batches). Falls back to ImageMagick if `vips` isn't installed. See `skills/fast-resize/SKILL.md`.
 - **fast-thumbnail** — high-throughput thumbnail generation via `vipsthumbnail`, with shrink-on-load JPEG decoding for sub-second-per-image runs. See `skills/fast-thumbnail/SKILL.md`.
+- **optimize-png** — shrink PNGs losslessly (`oxipng`, 20–40% typical) or lossily (`pngquant`, 60–80%). See `skills/optimize-png/SKILL.md`.
+- **optimize-jpeg** — lossless JPEG squeeze (`jpegoptim`) or recompress with better quantisation (`mozjpeg`, ~10–15% smaller). See `skills/optimize-jpeg/SKILL.md`.
+- **convert-to-avif** — modern web format via `avifenc` (~30% better than WebP at same quality). See `skills/convert-to-avif/SKILL.md`.
+- **web-ready** — orchestrator: ingest anything (HEIC, RAW, JPEG, PNG, TIFF) → strip EXIF → resize → encode AVIF + WebP + JPEG fallback → optimise. Profiles for blog / gallery / thumbnail / archival-web. See `skills/web-ready/SKILL.md`.
 
 ## Dependencies
 
