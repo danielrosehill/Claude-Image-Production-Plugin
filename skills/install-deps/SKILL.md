@@ -60,6 +60,7 @@ Ask before running. Fall back to system pip with `--break-system-packages` only 
 | `cjxl` / `djxl` | `which cjxl` | optional | `sudo apt install libjxl-tools` | `brew install jpeg-xl` |
 | `realesrgan-ncnn-vulkan` | `which realesrgan-ncnn-vulkan` | optional | binary release from upstream | binary release from upstream |
 | `darktable-cli` | `which darktable-cli` | optional | `sudo apt install darktable` (GUI + CLI) | `brew install darktable` |
+| `img2pdf` | `which img2pdf` | optional | `uv tool install img2pdf` (or `sudo apt install python3-img2pdf`) | `pipx install img2pdf` |
 
 For each: if missing, stage the install command tagged required/optional. Required tools that are missing block the install — surface that clearly.
 

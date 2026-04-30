@@ -14,16 +14,7 @@ Plus: **image → PDF on A4** for digital-printer workflows is a recurring task 
 
 ## Remaining items
 
-### 1. `images-to-pdf` — image → A4 PDF, including one-image-per-page (HIGH PRIORITY)
-
-- **Tool:** `img2pdf` (preferred — Python, lossless JPEG embedding, no re-encode) with ImageMagick `convert` fallback for non-JPEG sources.
-- **Install:** `uv tool install img2pdf` or apt `python3-img2pdf`.
-- **Why it fits:** Recurring real-world task — preparing image batches for digital printers, document scanning workflows, sharing photo sets as a single PDF.
-- **Skill to add:**
-  - `images-to-pdf` — Use when the user wants to combine images into a PDF on a standard paper size (A4 default; A3, Letter, Legal supported). Modes: `one-per-page` (default, fits each image to the page with margins), `multi-up` (2/4/6/9 per page for proof sheets), `as-is` (no resize, native pixel size). Auto-detects portrait vs landscape per image.
-- **Inputs:** input dir / file glob, output PDF path, paper size, mode, margin (mm), DPI for fit calculations, sort order (filename / EXIF date).
-
-### 2. `upscale-image` — Upscayl-bin (and Real-ESRGAN fallback)
+### 1. `upscale-image` — Upscayl-bin (and Real-ESRGAN fallback)
 
 - **Tool:** `upscayl-bin` (bundled with Upscayl install — same `realesrgan-ncnn-vulkan` syntax with extra bundled models), fallback to standalone `realesrgan-ncnn-vulkan`.
 - **Install:** Detect `upscayl-bin` first (`/opt/Upscayl/resources/bin/upscayl-bin` or flatpak path). If absent, point at Upscayl install or upstream realesrgan release.
@@ -32,7 +23,7 @@ Plus: **image → PDF on A4** for digital-printer workflows is a recurring task 
   - `upscale-image` — Use when the user wants to AI-upscale a batch 2× / 3× / 4×. Picks Upscayl model (`upscayl-standard-4x`, `upscayl-lite-4x`, `realesrgan-x4plus`, `realesrgan-x4plus-anime`) or accepts an explicit `--model` flag.
 - **Inputs:** input dir/file, scale factor, model, output dir.
 
-### 3. `convert-to-jxl` — archival JPEG XL (LOW PRIORITY, cheap to add)
+### 2. `convert-to-jxl` — archival JPEG XL (LOW PRIORITY, cheap to add)
 
 - **Tool:** `cjxl` from `libjxl-tools`.
 - **Why it fits:** Unique value: JXL can losslessly re-encode an existing JPEG bit-exactly reversibly, and decode is faster than re-decoding the original. ~20% smaller than the source JPEG with zero quality loss. Archival use — not web (browser support is still patchy).
@@ -57,12 +48,10 @@ Add to system-binary table:
 ```
 | `cjxl` / `djxl` | `which cjxl` | optional | `sudo apt install libjxl-tools` | `brew install jpeg-xl` |
 | `upscayl-bin` | `which upscayl-bin \|\| ls /opt/Upscayl/resources/bin/upscayl-bin` | optional | install Upscayl from upscayl.org | install Upscayl from upscayl.org |
-| `img2pdf` | `which img2pdf` | optional | `uv tool install img2pdf` (or `sudo apt install python3-img2pdf`) | `pipx install img2pdf` |
 ```
 
 ### New skill directories to create
 
-- `skills/images-to-pdf/SKILL.md`
 - `skills/upscale-image/SKILL.md`
 - `skills/convert-to-jxl/SKILL.md`
 
@@ -76,8 +65,7 @@ Add the three new skills to the Skills section.
 
 ## Order of operations (remaining)
 
-1. **`images-to-pdf`** — high real-world value, recurring task.
-2. **`upscale-image`** (Upscayl-bin) — handy daily tool.
-3. **`convert-to-jxl`** — cheap, archival nice-to-have.
+1. **`upscale-image`** (Upscayl-bin) — handy daily tool.
+2. **`convert-to-jxl`** — cheap, archival nice-to-have.
 
 Per Daniel's plans rule: as each item is implemented, **delete it from this file** rather than ticking it off.
