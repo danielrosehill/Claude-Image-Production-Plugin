@@ -1,7 +1,7 @@
 {
   "name": "image-production",
   "description": "Claude Code plugin for image editing, batch operations, format conversion, and filesystem organisation of image libraries — bucket by resolution, aspect ratio, orientation, format, EXIF capture time, camera, and dedupe duplicates / near-duplicates.",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "author": {
     "name": "Daniel Rosehill",
     "email": "public@danielrosehill.com",
@@ -10,6 +10,7 @@
   "license": "MIT",
   "repository": "https://github.com/danielrosehill/Claude-Image-Production-Plugin",
   "commands": [
+    "./commands/setup-workspace.md",
     "./commands/apply-filters.md",
     "./commands/batch-resize.md",
     "./commands/bg-removal.md",
@@ -30,7 +31,10 @@
     "./commands/sort-media.md"
   ],
   "skills": [
-    "./skills/scrub-metadata/SKILL.md"
+    "./skills/scrub-metadata/SKILL.md",
+    "./skills/workspace-setup/SKILL.md",
+    "./skills/open-workspace/SKILL.md",
+    "./skills/new-project/SKILL.md"
   ],
   "keywords": [
     "media-editing",
