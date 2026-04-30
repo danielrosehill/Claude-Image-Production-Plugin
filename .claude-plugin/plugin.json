@@ -34,7 +34,10 @@
     "./skills/scrub-metadata/SKILL.md",
     "./skills/workspace-setup/SKILL.md",
     "./skills/open-workspace/SKILL.md",
-    "./skills/new-project/SKILL.md"
+    "./skills/new-project/SKILL.md",
+    "./skills/install-deps/SKILL.md",
+    "./skills/fast-resize/SKILL.md",
+    "./skills/fast-thumbnail/SKILL.md"
   ],
   "keywords": [
     "media-editing",

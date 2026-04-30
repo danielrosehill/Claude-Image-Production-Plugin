@@ -18,7 +18,6 @@
 - bg-removal command.
 
 **Gaps (CLI-side):**
-- Throughput on large libraries — ImageMagick is slow on big batches; no `libvips` path.
 - Modern format encoding — no AVIF (`avifenc`), no JPEG XL (`cjxl`).
 - Format-specific *optimisation* — no dedicated lossless/lossy optimisers (`oxipng`, `pngquant`, `jpegoptim`, `mozjpeg`); `compress-images` is generic.
 - HEIC ingest — common iPhone import pain, no batch HEIC→JPEG/PNG path (`heif-convert`).
@@ -27,18 +26,7 @@
 
 ## Recommended additions
 
-### 1. `libvips` (`vips`, `vipsthumbnail`) — fast batch image processing (REQUIRED)
-
-- **Licence:** LGPL-2.1.
-- **Install:** `sudo apt install libvips-tools`.
-- **Why it fits:** 5–10× faster than ImageMagick on batch resize/thumbnail/format-convert, with lower memory footprint — material difference when organising libraries of 10k+ images. Drop-in for the resize/thumbnail paths.
-- **Why not somewhere else:** Pure image-production primitive.
-- **Skills to add:**
-  - `fast-resize` — Use when the user wants to resize a large batch of images with libvips for throughput. Same inputs as `batch-resize` (which uses ImageMagick) but optimised for batches >500 files. Falls back to ImageMagick if vips isn't installed.
-  - `fast-thumbnail` — Use when the user wants thumbnails generated at scale. Wraps `vipsthumbnail` for sub-second-per-image generation.
-- **Install required?** Optional — `batch-resize` continues to work via ImageMagick. Add as optional with a "recommended for libraries >500 images" note.
-
-### 2. `heif-convert` (libheif-examples) — HEIC → JPEG/PNG batch (REQUIRED for iPhone users)
+### 1. `heif-convert` (libheif-examples) — HEIC → JPEG/PNG batch (REQUIRED for iPhone users)
 
 - **Licence:** LGPL-3.0.
 - **Install:** `sudo apt install libheif-examples` (sometimes packaged as `heif-gdk-pixbuf` deps; `heif-convert` binary is the target).
@@ -48,7 +36,7 @@
   - `heic-to-jpeg` — Use when the user has a folder of HEIC files (iPhone import) and wants them as JPEG/PNG. Preserves EXIF, supports quality flag, optional `-keep-original` to retain HEIC alongside.
 - **Install required?** Optional. apt-only, tiny.
 
-### 3. PNG/JPEG optimisers — `oxipng`, `pngquant`, `jpegoptim`, `mozjpeg` (OPTIONAL bundle)
+### 2. PNG/JPEG optimisers — `oxipng`, `pngquant`, `jpegoptim`, `mozjpeg` (OPTIONAL bundle)
 
 - **Licences:** MIT (oxipng), GPL-3.0 (pngquant), GPL-2.0+ (jpegoptim), BSD-3 (mozjpeg).
 - **Install:** `sudo apt install oxipng pngquant jpegoptim` for the first three; `mozjpeg` typically wants `cargo install mozjpeg-cli` or a binary release.
@@ -59,7 +47,7 @@
   - `optimize-jpeg` — Use when the user wants to losslessly shrink JPEGs (jpegoptim) or re-encode for better compression (mozjpeg). One skill, mode-flag-driven.
 - **Install required?** Optional. Add the apt trio to deps; mozjpeg behind a "want best-quality JPEG" footnote.
 
-### 4. `avifenc` + `cjxl` — modern image formats (OPTIONAL)
+### 3. `avifenc` + `cjxl` — modern image formats (OPTIONAL)
 
 - **Licences:** BSD-2 (libavif), Apache-2.0 (libjxl).
 - **Install:** `sudo apt install libavif-bin libjxl-tools`.
@@ -70,7 +58,7 @@
   - `convert-to-jxl` — Use when the user wants JPEG XL output for archival (lossless re-encode of JPEG is bit-exact reversible, a unique JXL property worth surfacing).
 - **Install required?** Optional.
 
-### 5. `realesrgan-ncnn-vulkan` — AI upscaling (OPTIONAL)
+### 4. `realesrgan-ncnn-vulkan` — AI upscaling (OPTIONAL)
 
 - **Licence:** BSD-3.
 - **Install:** Single static binary release from GitHub (no apt). Place under the plugin user-data dir or `~/bin/`.
@@ -80,7 +68,7 @@
   - `upscale-image` — Use when the user wants to upscale a batch of images 2× / 3× / 4× with Real-ESRGAN. Choice of model (default `realesr-animevideov3` for illustration, `realesrgan-x4plus` for photos).
 - **Install required?** Optional. Document the binary-download path explicitly (the plugin shouldn't auto-download GitHub releases without consent).
 
-### 6. `darktable-cli` — RAW development (OPTIONAL)
+### 5. `darktable-cli` — RAW development (OPTIONAL)
 
 - **Licence:** GPL-3.0.
 - **Install:** `sudo apt install darktable` (provides the GUI + the CLI).
@@ -104,14 +92,11 @@
 
 ## Concrete diffs
 
-### Edits to `skills/install-deps/SKILL.md` *(or create one — plugin currently lists deps in README only)*
+### Edits to `skills/install-deps/SKILL.md`
 
-The plugin doesn't have a dedicated `install-deps` skill yet — only README-level dependency notes. **Pre-requisite:** create `skills/install-deps/SKILL.md` modelled on the audio-production version. Then add:
-
-System binaries:
+System binaries to add:
 
 ```
-| `vips` / `vipsthumbnail` | `which vips` | optional (recommended >500 images) | `sudo apt install libvips-tools` | `brew install vips` |
 | `heif-convert` | `which heif-convert` | optional | `sudo apt install libheif-examples` | `brew install libheif` |
 | `oxipng` | `which oxipng` | optional | `sudo apt install oxipng` | `brew install oxipng` |
 | `pngquant` | `which pngquant` | optional | `sudo apt install pngquant` | `brew install pngquant` |
@@ -125,9 +110,6 @@ System binaries:
 
 ### New skill directories to create
 
-- `skills/install-deps/SKILL.md` *(prereq — bring the plugin into line with audio-production's deps surface)*
-- `skills/fast-resize/SKILL.md`
-- `skills/fast-thumbnail/SKILL.md`
 - `skills/heic-to-jpeg/SKILL.md`
 - `skills/optimize-png/SKILL.md`
 - `skills/optimize-jpeg/SKILL.md`
@@ -146,12 +128,10 @@ Add the new SKILL.md paths to the `skills` array.
 
 ## Order of operations
 
-1. **`install-deps` skill** — prerequisite. Without it the rest is asserted, not enforced. Mirror the audio-production pattern.
-2. **`fast-resize` + `fast-thumbnail` (libvips)** — biggest measurable win on existing workflows. apt-only.
-3. **`heic-to-jpeg`** — universal iPhone-import pain point, trivial install.
-4. **`optimize-png` + `optimize-jpeg`** — fill out compression. apt-only (mozjpeg footnoted as cargo).
-5. **`convert-to-avif` + `convert-to-jxl`** — modern formats. apt-only.
-6. **`upscale-image`** — useful but binary-download required. Land after the easy wins.
-7. **`develop-raw`** — heaviest install (full darktable). Niche use; defer last.
+1. **`heic-to-jpeg`** — universal iPhone-import pain point, trivial install.
+2. **`optimize-png` + `optimize-jpeg`** — fill out compression. apt-only (mozjpeg footnoted as cargo).
+3. **`convert-to-avif` + `convert-to-jxl`** — modern formats. apt-only.
+4. **`upscale-image`** — useful but binary-download required. Land after the easy wins.
+5. **`develop-raw`** — heaviest install (full darktable). Niche use; defer last.
 
 Per Daniel's plans rule: as each item is implemented, **delete it from this file** rather than ticking it off.
