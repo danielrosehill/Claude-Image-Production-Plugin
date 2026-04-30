@@ -12,7 +12,7 @@ Register the folder the user treats as their image production workspace. Individ
 ## Data store
 
 ```
-${XDG_DATA_HOME:-$HOME/.local/share}/claude-media-plugins/image-production/workspace.json
+${CLAUDE_USER_DATA:-${XDG_DATA_HOME:-$HOME/.local/share}/claude-plugins}/image-production/workspace.json
 ```
 
 Do **not** write under `~/.claude/`.
@@ -22,7 +22,7 @@ Do **not** write under `~/.claude/`.
 ### 1. Check for existing config
 
 ```bash
-DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/claude-media-plugins/image-production"
+DATA_DIR="${CLAUDE_USER_DATA:-${XDG_DATA_HOME:-$HOME/.local/share}/claude-plugins}/image-production"
 CONFIG="$DATA_DIR/workspace.json"
 test -f "$CONFIG" && cat "$CONFIG"
 ```

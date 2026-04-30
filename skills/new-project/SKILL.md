@@ -14,7 +14,7 @@ Scaffold a project folder inside the registered image workspace.
 ### 1. Resolve the workspace
 
 ```bash
-CONFIG="${XDG_DATA_HOME:-$HOME/.local/share}/claude-media-plugins/image-production/workspace.json"
+CONFIG="${CLAUDE_USER_DATA:-${XDG_DATA_HOME:-$HOME/.local/share}/claude-plugins}/image-production/workspace.json"
 test -f "$CONFIG" || { echo "No workspace registered — run workspace-setup first."; exit 1; }
 WS=$(jq -r .path "$CONFIG" 2>/dev/null || grep -oP '"path":\s*"\K[^"]+' "$CONFIG")
 ```

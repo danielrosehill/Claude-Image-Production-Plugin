@@ -8,7 +8,7 @@ allowed-tools: Bash(cat *), Bash(test *), Bash(ls *), Bash(jq *), Bash(konsole *
 # Open Image Workspace
 
 ```bash
-CONFIG="${XDG_DATA_HOME:-$HOME/.local/share}/claude-media-plugins/image-production/workspace.json"
+CONFIG="${CLAUDE_USER_DATA:-${XDG_DATA_HOME:-$HOME/.local/share}/claude-plugins}/image-production/workspace.json"
 test -f "$CONFIG" || { echo "No image workspace registered. Run workspace-setup first."; exit 1; }
 WS=$(jq -r .path "$CONFIG" 2>/dev/null || grep -oP '"path":\s*"\K[^"]+' "$CONFIG")
 test -d "$WS" || { echo "Workspace path missing: $WS"; exit 1; }
