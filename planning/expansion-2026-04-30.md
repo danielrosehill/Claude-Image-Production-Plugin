@@ -14,16 +14,7 @@ Plus: **image → PDF on A4** for digital-printer workflows is a recurring task 
 
 ## Remaining items
 
-### 1. `upscale-image` — Upscayl-bin (and Real-ESRGAN fallback)
-
-- **Tool:** `upscayl-bin` (bundled with Upscayl install — same `realesrgan-ncnn-vulkan` syntax with extra bundled models), fallback to standalone `realesrgan-ncnn-vulkan`.
-- **Install:** Detect `upscayl-bin` first (`/opt/Upscayl/resources/bin/upscayl-bin` or flatpak path). If absent, point at Upscayl install or upstream realesrgan release.
-- **Why it fits:** Daniel uses Upscayl regularly. Single binary, GPU-accelerated, no Python.
-- **Skill to add:**
-  - `upscale-image` — Use when the user wants to AI-upscale a batch 2× / 3× / 4×. Picks Upscayl model (`upscayl-standard-4x`, `upscayl-lite-4x`, `realesrgan-x4plus`, `realesrgan-x4plus-anime`) or accepts an explicit `--model` flag.
-- **Inputs:** input dir/file, scale factor, model, output dir.
-
-### 2. `convert-to-jxl` — archival JPEG XL (LOW PRIORITY, cheap to add)
+### 1. `convert-to-jxl` — archival JPEG XL (LOW PRIORITY, cheap to add)
 
 - **Tool:** `cjxl` from `libjxl-tools`.
 - **Why it fits:** Unique value: JXL can losslessly re-encode an existing JPEG bit-exactly reversibly, and decode is faster than re-decoding the original. ~20% smaller than the source JPEG with zero quality loss. Archival use — not web (browser support is still patchy).
@@ -47,12 +38,10 @@ Add to system-binary table:
 
 ```
 | `cjxl` / `djxl` | `which cjxl` | optional | `sudo apt install libjxl-tools` | `brew install jpeg-xl` |
-| `upscayl-bin` | `which upscayl-bin \|\| ls /opt/Upscayl/resources/bin/upscayl-bin` | optional | install Upscayl from upscayl.org | install Upscayl from upscayl.org |
 ```
 
 ### New skill directories to create
 
-- `skills/upscale-image/SKILL.md`
 - `skills/convert-to-jxl/SKILL.md`
 
 ### plugin.json
@@ -65,7 +54,6 @@ Add the three new skills to the Skills section.
 
 ## Order of operations (remaining)
 
-1. **`upscale-image`** (Upscayl-bin) — handy daily tool.
-2. **`convert-to-jxl`** — cheap, archival nice-to-have.
+1. **`convert-to-jxl`** — cheap, archival nice-to-have.
 
 Per Daniel's plans rule: as each item is implemented, **delete it from this file** rather than ticking it off.

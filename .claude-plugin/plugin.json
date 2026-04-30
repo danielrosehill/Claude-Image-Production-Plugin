@@ -42,7 +42,8 @@
     "./skills/optimize-jpeg/SKILL.md",
     "./skills/convert-to-avif/SKILL.md",
     "./skills/web-ready/SKILL.md",
-    "./skills/images-to-pdf/SKILL.md"
+    "./skills/images-to-pdf/SKILL.md",
+    "./skills/upscale-image/SKILL.md"
   ],
   "keywords": [
     "media-editing",
