@@ -47,7 +47,10 @@ A Claude Code plugin for image editing, batch operations, format conversion, and
 
 ## Skills
 
+- **install-deps** — provision system binaries (ImageMagick, exiftool, optional libvips/heif/optimisers/AVIF/JXL/Real-ESRGAN/darktable) and a plugin-owned uv venv with `Pillow` + `imagehash`. Idempotent doctor. See `skills/install-deps/SKILL.md`.
 - **scrub-metadata** — strip EXIF / IPTC / XMP metadata from images using `exiftool`. Supports preview, backup-first, recursive operation, whitelist of fields to preserve (e.g. Orientation), and per-run logging. See `skills/scrub-metadata/SKILL.md`.
+- **fast-resize** — batch resize via libvips (5–10× ImageMagick on large batches). Falls back to ImageMagick if `vips` isn't installed. See `skills/fast-resize/SKILL.md`.
+- **fast-thumbnail** — high-throughput thumbnail generation via `vipsthumbnail`, with shrink-on-load JPEG decoding for sub-second-per-image runs. See `skills/fast-thumbnail/SKILL.md`.
 
 ## Dependencies
 
