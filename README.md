@@ -59,6 +59,7 @@ A Claude Code plugin for image editing, batch operations, format conversion, and
 - **auto-white-balance** — automatic white balance correction (gray-world / white-patch / combined) via ImageMagick. Single image or batch, optional luminance preservation, blend strength. See `skills/auto-white-balance/SKILL.md`.
 - **auto-tone** — automatic tonal correction (auto-level / auto-gamma / punch) via ImageMagick. Hue-preserving by default, blend-strength knob, batch-aware. See `skills/auto-tone/SKILL.md`.
 - **auto-deskew** — automatic skew correction. ImageMagick `-deskew` for documents, OpenCV Hough-line fallback for photos. Inscribed-rectangle crop, max-angle guard. See `skills/auto-deskew/SKILL.md`.
+- **new-workflow** — scaffold a multi-touchpoint image workflow inside the registered workspace: brief → references → generation → review → revision (N rounds) → export, with optional Fal nano-banana cloud-AI driver wired in for the generation/revision stages and explicit human review gates between them. See `skills/new-workflow/SKILL.md`.
 - **upscale-image** — AI upscale 2× / 3× / 4× via `upscayl-bin` (Upscayl's bundled CLI) or `realesrgan-ncnn-vulkan` fallback. GPU-accelerated, model-selectable (photo / anime / lite). See `skills/upscale-image/SKILL.md`.
 
 ## Dependencies
