@@ -57,6 +57,8 @@ A Claude Code plugin for image editing, batch operations, format conversion, and
 - **web-ready** — orchestrator: ingest anything (HEIC, RAW, JPEG, PNG, TIFF) → strip EXIF → resize → encode AVIF + WebP + JPEG fallback → optimise. Profiles for blog / gallery / thumbnail / archival-web. See `skills/web-ready/SKILL.md`.
 - **images-to-pdf** — combine images into a PDF on a standard paper size (A4 default). Modes: one-per-page (auto-orient), multi-up (2/4/6/9 per page), as-is. Lossless JPEG embedding via `img2pdf`, ImageMagick fallback. See `skills/images-to-pdf/SKILL.md`.
 - **auto-white-balance** — automatic white balance correction (gray-world / white-patch / combined) via ImageMagick. Single image or batch, optional luminance preservation, blend strength. See `skills/auto-white-balance/SKILL.md`.
+- **auto-tone** — automatic tonal correction (auto-level / auto-gamma / punch) via ImageMagick. Hue-preserving by default, blend-strength knob, batch-aware. See `skills/auto-tone/SKILL.md`.
+- **auto-deskew** — automatic skew correction. ImageMagick `-deskew` for documents, OpenCV Hough-line fallback for photos. Inscribed-rectangle crop, max-angle guard. See `skills/auto-deskew/SKILL.md`.
 - **upscale-image** — AI upscale 2× / 3× / 4× via `upscayl-bin` (Upscayl's bundled CLI) or `realesrgan-ncnn-vulkan` fallback. GPU-accelerated, model-selectable (photo / anime / lite). See `skills/upscale-image/SKILL.md`.
 
 ## Dependencies
