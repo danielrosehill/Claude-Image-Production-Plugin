@@ -1,7 +1,7 @@
 {
   "name": "image-production",
   "description": "Claude Code plugin for image editing, batch operations, format conversion, and filesystem organisation of image libraries — bucket by resolution, aspect ratio, orientation, format, EXIF capture time, camera, and dedupe duplicates / near-duplicates.",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "author": {
     "name": "Daniel Rosehill",
     "email": "public@danielrosehill.com",
@@ -43,7 +43,15 @@
     "./skills/convert-to-avif/SKILL.md",
     "./skills/web-ready/SKILL.md",
     "./skills/images-to-pdf/SKILL.md",
-    "./skills/upscale-image/SKILL.md"
+    "./skills/upscale-image/SKILL.md",
+    "./skills/to-jxl/SKILL.md",
+    "./skills/from-jxl/SKILL.md",
+    "./skills/transcode-jpeg-to-jxl-lossless/SKILL.md",
+    "./skills/pdf-to-images/SKILL.md",
+    "./skills/pdf-extract-embedded-images/SKILL.md",
+    "./skills/read-metadata/SKILL.md",
+    "./skills/set-metadata/SKILL.md",
+    "./skills/batch-set-copyright/SKILL.md"
   ],
   "keywords": [
     "media-editing",
