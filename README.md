@@ -61,6 +61,8 @@ A Claude Code plugin for image editing, batch operations, format conversion, and
 - **auto-deskew** — automatic skew correction. ImageMagick `-deskew` for documents, OpenCV Hough-line fallback for photos. Inscribed-rectangle crop, max-angle guard. See `skills/auto-deskew/SKILL.md`.
 - **new-workflow** — scaffold a multi-touchpoint image workflow inside the registered workspace: brief → references → generation → review → revision (N rounds) → export, with optional Fal nano-banana cloud-AI driver wired in for the generation/revision stages and explicit human review gates between them. See `skills/new-workflow/SKILL.md`.
 - **upscale-image** — AI upscale 2× / 3× / 4× via `upscayl-bin` (Upscayl's bundled CLI) or `realesrgan-ncnn-vulkan` fallback. GPU-accelerated, model-selectable (photo / anime / lite). See `skills/upscale-image/SKILL.md`.
+- **svg-to-raster** — rasterize SVG to PNG / PDF / PS via [CairoSVG](https://github.com/Kozea/CairoSVG) (in the plugin venv). Scale, explicit dimensions, DPI, transparent or solid background. See `skills/svg-to-raster/SKILL.md`.
+- **vectorize** — trace raster images (PNG / JPEG) to SVG via [vtracer](https://github.com/visioncortex/vtracer) (in the plugin venv). Colour or binary mode, tunable speckle filter and layer difference. Companion to `svg-to-raster`. See `skills/vectorize/SKILL.md`.
 
 ## Dependencies
 
