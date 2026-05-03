@@ -84,13 +84,19 @@ If it exists, leave it.
 | `Pillow` | required | dedupe (perceptual), inspection |
 | `imagehash` | required | dedupe (perceptual) |
 | `numpy` | required (Pillow/imagehash dep) | dedupe |
+| `cairosvg` | optional | `svg-to-raster` (SVG → PNG/PDF). Needs system `libcairo2` (preinstalled on most Linux/macOS). |
+| `vtracer` | optional | `vectorize` (raster → SVG). Self-contained wheel (bundled Rust binary). |
 
 Stage:
 
 ```bash
 source "$VENV_DIR/bin/activate"
 uv pip install Pillow imagehash numpy
+# Optional — only if user wants SVG conversion / vectorization:
+uv pip install cairosvg vtracer
 ```
+
+If `cairosvg` import fails at runtime with a libcairo error, prompt the user to install the system lib: `sudo apt install libcairo2` (Linux) / `brew install cairo` (macOS).
 
 ### 6. Verify
 
