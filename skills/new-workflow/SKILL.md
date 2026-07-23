@@ -103,7 +103,7 @@ Subsequent sessions resume by reading `_manifest/workflow.json` and continuing f
 When the active stage is `ai`-typed and the driver is `fal-nano-banana`:
 
 1. Read the brief + references; compose a dense one-paragraph prompt (see `ai-graphics` skill for prompt style).
-2. Call `mcp__jungle-shared__nano-tech-diagrams__text_to_image` with `resolution: "1K"` and the configured aspect ratio. For revision rounds that build on a prior image, use `mcp__jungle-shared__nano-tech-diagrams__image_to_image` and pass the selected candidate.
+2. Call `mcp__gateway__nano-tech-diagrams__text_to_image` with `resolution: "1K"` and the configured aspect ratio. For revision rounds that build on a prior image, use `mcp__gateway__nano-tech-diagrams__image_to_image` and pass the selected candidate.
 3. Download the returned `fal.media` URL into the stage folder:
    ```bash
    curl -sSL -o "$PROJ/03-generation/$(date +%s)-<slug>.png" "<fal URL>"

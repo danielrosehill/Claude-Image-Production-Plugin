@@ -9,7 +9,7 @@ Generate AI graphics — banners, hero images, illustrations, social cards, READ
 
 ## MCP Server Location
 
-**Always use `mcp__jungle-shared__nano-tech-diagrams__*` (runs on ubuntuvm).**
+**Always use `mcp__jungle-shared__nano-tech-diagrams__*` (runs on residencehome).**
 
 Do not use `jungle-local` — it claims to accept local filesystem paths but runs in an environment that cannot read the workstation's filesystem, so every local-path call fails with ENOENT. The shared instance is the working path; pair it with the staging endpoint below for any image input.
 
@@ -41,8 +41,8 @@ Keep prompts one dense paragraph rather than a bullet list.
 
 1. Confirm subject, vibe, aspect ratio with the user if unclear.
 2. Ensure the target directory exists (`mkdir -p` via Bash).
-3. Call `mcp__jungle-shared__nano-tech-diagrams__text_to_image` with the prompt, aspect ratio, and `output_format`.
-4. The MCP returns a `fal.media` URL. **Do not rely on the MCP's `download_to` parameter** — the ubuntuvm process cannot write to the workstation filesystem. Instead, capture the URL and download it yourself:
+3. Call `mcp__gateway__nano-tech-diagrams__text_to_image` with the prompt, aspect ratio, and `output_format`.
+4. The MCP returns a `fal.media` URL. **Do not rely on the MCP's `download_to` parameter** — the residencehome process cannot write to the workstation filesystem. Instead, capture the URL and download it yourself:
    ```bash
    curl -sSL -o "/absolute/target/path.png" "<fal.media URL>"
    ```
@@ -50,7 +50,7 @@ Keep prompts one dense paragraph rather than a bullet list.
 
 Example:
 ```
-mcp__jungle-shared__nano-tech-diagrams__text_to_image(
+mcp__gateway__nano-tech-diagrams__text_to_image(
   prompt="<detailed paragraph>",
   aspect_ratio="21:9",
   output_format="png"
@@ -68,7 +68,7 @@ Local input files must be staged to S3 first — the MCP cannot read local paths
    URL=$(s3-stage /local/path/to/input.jpg)
    ```
    `s3-stage` returns a presigned GET URL (default 1-hour TTL).
-3. Call `mcp__jungle-shared__nano-tech-diagrams__image_to_image` with `image_path="$URL"`, plus your prompt, aspect ratio, and `output_format`. Use `dictionary_words` for any text that must be spelled correctly.
+3. Call `mcp__gateway__nano-tech-diagrams__image_to_image` with `image_path="$URL"`, plus your prompt, aspect ratio, and `output_format`. Use `dictionary_words` for any text that must be spelled correctly.
 4. The MCP returns a `fal.media` URL. Download to the target folder:
    ```bash
    curl -sSL -o "/absolute/target/path.jpg" "<fal.media URL>"

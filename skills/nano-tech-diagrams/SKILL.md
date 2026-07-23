@@ -9,7 +9,7 @@ This skill uses the **nano-tech-diagrams** MCP server to create and transform te
 
 ## MCP Server Location
 
-**Always use `mcp__jungle-shared__nano-tech-diagrams__*` (on ubuntuvm).**
+**Always use `mcp__jungle-shared__nano-tech-diagrams__*` (on residencehome).**
 
 Do not use `jungle-local`. Its schema claims to accept local filesystem paths, but the process runs in an environment that cannot read the workstation's filesystem, so every local-path call fails with ENOENT. The shared instance plus the staging endpoint below is the supported path.
 
@@ -34,7 +34,7 @@ For multiple files, call `s3-stage` for each (can be parallelised), collect the 
 
 ## Saving output to the workstation
 
-The MCP returns a `fal.media` URL. **Do not rely on the `download_to` parameter** — it writes to the ubuntuvm process's filesystem, not the workstation. Download the returned URL yourself:
+The MCP returns a `fal.media` URL. **Do not rely on the `download_to` parameter** — it writes to the residencehome process's filesystem, not the workstation. Download the returned URL yourself:
 
 ```bash
 curl -sSL -o "/absolute/workstation/path/output.png" "<fal.media URL>"
