@@ -63,11 +63,13 @@ mcp__gateway__nano-tech-diagrams__text_to_image(
 Local input files must be staged to S3 first — the MCP cannot read local paths directly, but it accepts http(s) URLs.
 
 1. Confirm the transformation with the user (prompt, aspect ratio, target output path).
-2. **Stage the input file** to the `mcp-staging` S3 bucket:
+2. **Stage the input file** via the `minio` MCP (gateway namespace): presign a PUT URL
+   (`minio__presign_url(bucket="personal-transient", key="staging/input.jpg", method="put")`), upload with
    ```bash
-   URL=$(s3-stage /local/path/to/input.jpg)
+   curl -sSf -X PUT -T /local/path/to/input.jpg "<put-url>"
    ```
-   `s3-stage` returns a presigned GET URL (default 1-hour TTL).
+   then presign a GET URL for the same key (`method="get"`, default 1-hour TTL).
+   (The old `s3-stage` helper and `mcp-staging` bucket were decommissioned 2026-07-23.)
 3. Call `mcp__gateway__nano-tech-diagrams__image_to_image` with `image_path="$URL"`, plus your prompt, aspect ratio, and `output_format`. Use `dictionary_words` for any text that must be spelled correctly.
 4. The MCP returns a `fal.media` URL. Download to the target folder:
    ```bash
