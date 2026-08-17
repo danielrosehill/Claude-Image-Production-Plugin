@@ -3,7 +3,7 @@
 ## Plugin
 
 - **Name:** `image-production`
-- **Path:** `~/repos/github/my-repos/Claude-Image-Production-Plugin`
+- **Path:** `~/repos/github/ai-agents-and-prompts/ai-claude-plugins/Claude-Image-Production-Plugin`
 - **Scope:** Image editing, batch ops, format conversion, filesystem organisation, **and web-ready output pipeline**.
 
 ## Direction (post-2026-04-30 redirect)
