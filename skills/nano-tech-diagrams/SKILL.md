@@ -9,7 +9,7 @@ This skill uses the **nano-tech-diagrams** MCP server to create and transform te
 
 ## MCP Server Location
 
-**Always use `mcp__jungle-shared__nano-tech-diagrams__*` (on residencehome).**
+**Always use `mcp__gateway__nano-tech-diagrams__*` (on residencehome).**
 
 Do not use `jungle-local`. Its schema claims to accept local filesystem paths, but the process runs in an environment that cannot read the workstation's filesystem, so every local-path call fails with ENOENT. The shared instance plus the staging endpoint below is the supported path.
 

@@ -32,7 +32,7 @@ Ask (or infer if obvious):
 
 - **Name** — required. Slugify (lowercase, hyphens).
 - **Brief** — one or two sentences describing the deliverable.
-- **Cloud-AI driver** — default `fal-nano-banana` (via `mcp__jungle-shared__nano-tech-diagrams__*`). `none` if the user is bringing their own images.
+- **Cloud-AI driver** — default `fal-nano-banana` (via `mcp__gateway__nano-tech-diagrams__*`). `none` if the user is bringing their own images.
 - **Expected rounds** — how many revision cycles to scaffold (default 3).
 - **Final aspect ratio / resolution** — for export-stage placeholders.
 
