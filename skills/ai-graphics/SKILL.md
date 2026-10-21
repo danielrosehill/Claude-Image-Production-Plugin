@@ -9,7 +9,7 @@ Generate AI graphics — banners, hero images, illustrations, social cards, READ
 
 ## MCP Server Location
 
-**Always use `mcp__jungle-shared__nano-tech-diagrams__*` (runs on residencehome).**
+**Always use `mcp__gateway__nano-tech-diagrams__*` (runs on residencehome).**
 
 Do not use `jungle-local` — it claims to accept local filesystem paths but runs in an environment that cannot read the workstation's filesystem, so every local-path call fails with ENOENT. The shared instance is the working path; pair it with the staging endpoint below for any image input.
 
