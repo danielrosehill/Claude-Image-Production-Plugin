@@ -15,16 +15,15 @@ Do not use `jungle-local`. Its schema claims to accept local filesystem paths, b
 
 ## File Staging (CRITICAL)
 
-The MCP server cannot read workstation file paths directly. For any tool that accepts an `image_path` parameter with a local file, stage it to the residence S3 (`personal-transient` bucket, via the `minio` MCP) and pass the presigned GET URL as `image_path` — the MCP accepts http(s) URLs directly.
+The MCP server cannot read workstation file paths directly. For any tool that accepts an `image_path` parameter with a local file, stage it with the `cloud-storage:stage-file` skill (Daniel's setup: `~/repos/github/ai-agents-and-prompts/ai-claude-plugins/Cloud-Storage-Plugin/scripts/stage.sh <file>`) and pass the presigned GET URL as `image_path` — the MCP accepts http(s) URLs directly.
 
 ### Staging workflow:
-1. **Presign a PUT URL**: `minio__presign_url(bucket="personal-transient", key="staging/image.jpg", method="put")`
-2. **Upload**: `curl -sSf -X PUT -T /local/path/to/image.jpg "<put-url>"`
-3. **Presign a GET URL** for the same key (`method="get"`) and pass it as `image_path` to the MCP tool.
-4. Objects auto-expire after 1 day (bucket lifecycle); presigned URL TTL defaults to 1 hour (`expires` param to override).
+1. **Stage**: `stage.sh /local/path/to/image.jpg` uploads to the 1-day `personal-transient` bucket and prints JSON `{store,bucket,key,url}`.
+2. Pass `.url` (presigned GET) as `image_path` to the MCP tool.
+3. **Clean up**: `stage.sh --rm <store> <bucket> <key>` once the tool has returned. Objects also auto-expire after 1 day.
 
 ### Batch staging:
-For multiple files, repeat the presign-PUT/curl/presign-GET cycle per file (presign calls can be batched), collect the URLs, then call the MCP tools.
+For multiple files, run `stage.sh` per file, collect the URLs, then call the MCP tools.
 
 ### When staging is NOT needed:
 - `text_to_image` — no input image required
@@ -59,14 +58,14 @@ curl -sSL -o "/absolute/workstation/path/output.png" "<fal.media URL>"
 ## Workflow
 
 ### For whiteboard cleanup:
-1. Stage the image via the minio MCP (presign PUT → `curl -T` → presign GET; see "File Staging" above)
+1. Stage the image with `cloud-storage:stage-file` (see "File Staging" above)
 2. Optionally ask about style preference — default is `clean_polished`
 3. Call `whiteboard_cleanup` with the presigned URL as `image_path`
 4. If domain-specific terms are present, pass them as `dictionary_words` for accurate spelling
 5. Download the returned `fal.media` URL to the workstation (see "Saving output" above)
 
 ### For image-to-image transformation:
-1. Stage the image via the minio MCP (presign PUT → `curl -T` → presign GET; see "File Staging" above)
+1. Stage the image with `cloud-storage:stage-file` (see "File Staging" above)
 2. Determine what transformation is needed: style change, diagram type conversion, or custom prompt
 3. Call `image_to_image` with at least one of: `prompt`, `style`, or `diagram_type`, and the presigned URL as `image_path`
 4. Common combos: `style=blueprint` + `diagram_type=network_diagram`
@@ -100,4 +99,4 @@ curl -sSL -o "/absolute/workstation/path/output.png" "<fal.media URL>"
 - The `dictionary_words` parameter helps with domain-specific terminology (e.g., ["Kubernetes", "Proxmox", "PostgreSQL"])
 - Aspect ratio options: auto, 1:1, 4:3, 3:4, 16:9, 9:16, 3:2, 2:3, 21:9, 9:21
 - Resolution options: 0.5K, 1K (default), 2K, 4K
-- The `*-transient` staging buckets have a 1-day object lifecycle; presigned URLs default to 1-hour TTL
+- The `*-transient` staging buckets have a 1-day object lifecycle; `stage.sh` URLs are presigned for 1 day
