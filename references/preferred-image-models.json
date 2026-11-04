@@ -1,0 +1,64 @@
+{
+  "$comment": "Preferred image models per use case. Read this before choosing a model. Update it through the check-model-pricing skill. Prices are list prices at 1K, USD, not live: confirm with scripts/model_price.py before any bulk run.",
+  "updated": "2026-11-05",
+  "default_backend": "fal",
+  "supported_backends": ["fal", "replicate"],
+  "policy": [
+    "Use the cost-effective default for most generations. Use the premium option only when the default failed on this job or the user asks for it.",
+    "Pick by use case. A model that won on text fidelity has not been shown to be good at characters or illustration.",
+    "Start with 2-4 images, not ten. Two models on the same prompt beats ten tries on one."
+  ],
+  "evidence_sources": {
+    "tech_graphics_benchmark": "danielrosehill/Tech-Graphics-Benchmark, rounds of 2026-10-28; catalogue/ and panels/2026-10.json hold the longlist and prices; results/2026-11-04-agent-read.json is an agent read, not human annotation"
+  },
+  "use_cases": [
+    {
+      "id": "text-heavy-diagram",
+      "when": "Tech diagrams and infographics where labels must be spelled exactly",
+      "default": {"endpoint": "openai/gpt-image-2.5/flare/text-to-image", "usd": 0.01, "params": {"quality": "medium"}},
+      "premium": {"endpoint": "google/nano-banana-2.1", "usd": 0.04, "params": {"resolution": "1K"}},
+      "evidence": "Informational round: Flare 5/5, Nano Banana 2.1 5/5, Ideogram V4.5 3/5, FLUX.3 Klein 2/5, Qwen-Image 3 0/5 (agent read)",
+      "status": "evaluated, not human-annotated"
+    },
+    {
+      "id": "whiteboard-to-diagram",
+      "when": "Turning a photo of a whiteboard into a clean diagram",
+      "default": {"endpoint": "google/nano-banana-2.1/edit", "usd": 0.044, "params": {"resolution": "1K"}},
+      "alternative": {"endpoint": "openai/gpt-image-2.5/flare/edit", "usd": 0.015, "note": "Only when every label is listed in the prompt: 0/5 without them, exact on the boards tried with them"},
+      "evidence": "Whiteboard round: Nano Banana 2.1 3/5, all others 0/5 (agent read)",
+      "status": "evaluated, not human-annotated"
+    },
+    {
+      "id": "illustration",
+      "when": "Banners, hero images, social cards, cartoons without exact text",
+      "default": {"endpoint": "google/nano-banana-2.1", "usd": 0.04, "params": {"resolution": "1K"}},
+      "budget": {"endpoint": "blackforestlabs/flux-3/klein/text-to-image", "usd": 0.009, "unit": "per megapixel"},
+      "premium": {"endpoint": "fal-ai/nano-banana-2", "usd": 0.08},
+      "evidence": "Banner round annotation is unfinished, so no ranking yet",
+      "status": "provisional"
+    },
+    {
+      "id": "character-from-reference",
+      "when": "Keeping a character or object recognisable from a reference image, including photo to cartoon",
+      "default": {"endpoint": "blackforestlabs/flux-3/klein/edit-image", "usd": 0.009, "unit": "per megapixel", "params": {"image_size": "square_hd", "enable_prompt_expansion": false}},
+      "premium": {"endpoint": "google/nano-banana-2.1/edit", "usd": 0.044, "params": {"aspect_ratio": "1:1", "resolution": "1K"}},
+      "evidence": "One test on 2026-11-05, 2 images per model: both kept the character and added the requested props. Klein came out softer and more textured, Nano Banana 2.1 flatter and closer to vector. Not a benchmark.",
+      "status": "provisional"
+    },
+    {
+      "id": "cheap-draft",
+      "when": "Throwaway concept sketches",
+      "default": {"endpoint": "blackforestlabs/flux-3/klein/text-to-image", "usd": 0.009, "unit": "per megapixel"},
+      "avoid": ["fal-ai/flux/schnell", "fal-ai/flux/dev"],
+      "evidence": "On 2026-11-05 FLUX.1 schnell and dev returned 512x512 through the gateway square preset and missed a specific prop (a kippah came out as a beanie or bobble hat) in most tries",
+      "status": "provisional"
+    },
+    {
+      "id": "background-removal",
+      "when": "Cutting a subject out before reuse",
+      "default": {"endpoint": "fal-ai/birefnet/v2", "usd": 0.000575, "unit": "per compute second", "params": {"model": "General Use (Heavy)"}},
+      "evidence": "Clean cut-out of a furry plush on a green screen, 2026-11-05 (one image)",
+      "status": "provisional"
+    }
+  ]
+}
