@@ -1,60 +1,47 @@
 ---
 name: ai-graphics
-description: "Generate AI graphics (banners, illustrations, hero images, social cards, etc.) with Nano Banana 2 via the fal-ai tools. Use when the user asks to create, generate, or make an image, banner, illustration, graphic, or artwork. For technical diagrams use tech-comms-diagrams."
+description: "Generate AI graphics (banners, illustrations, hero images, social cards, characters, etc.) on fal, or Replicate if asked, choosing a cost-effective model per use case. Use when the user asks to create, generate, or make an image, banner, illustration, graphic, or artwork, or to redraw a reference image. For technical diagrams use tech-comms-diagrams."
 ---
 
 # AI Graphics
 
-Generate AI graphics — banners, hero images, illustrations, social cards, README artwork — with **Nano Banana 2** (`fal-ai/nano-banana-2`) through the gateway's `fal-ai` upstream. For technical diagrams use the `tech-comms-diagrams` plugin instead.
+Generate banners, hero images, illustrations, social cards, characters and README artwork. For technical diagrams use the `tech-comms-diagrams` plugin.
 
-## Tool access
+## Choose the model first
 
-The `fal-ai` tools may not be listed natively; call them as `mcp__gateway__toolbox__call_tool(name="fal-ai__generate_image", arguments={...})`. Tools used here: `fal-ai__generate_image` (text-to-image), `fal-ai__generate_image_from_image` and `fal-ai__edit_image` (image input), `fal-ai__upload_file` (local file to URL). Run `fal-ai__list_models` (`category: "image"`) to see current model ids.
+1. Read `references/preferred-image-models.json` at the plugin root and match the job to a `use_cases` entry.
+2. Use its `default`. Use `premium` only when the default failed on this job or the user asks. Check `status`: `provisional` means little evidence, so say so if it matters.
+3. If no entry fits, or the price matters, use skill `check-model-pricing`. Never choose from `fal-ai__list_models` alone: it returns about 20 featured models out of hundreds, weighted to older and expensive ones.
+4. Generate a few images, not ten. Two models on the same prompt tells you more than many tries on one.
+5. fal is the default backend. Use Replicate when the user asks or a model is only there.
 
-## Hard rules
+## Run it
 
-- Set `model: "fal-ai/nano-banana-2"` explicitly (the tool default is `flux_schnell`). There is no `resolution` parameter, so output size is the model's default.
-- Pick `image_size` (enum only: `square`, `landscape_4_3`, `landscape_16_9`, `portrait_3_4`, `portrait_9_16`; there is no `aspect_ratio` and no 21:9):
-  - Banners / hero images / social cards: `landscape_16_9`
-  - Square avatars / icons: `square`
-  - Portraits: `portrait_3_4` or `portrait_9_16`
-- Default `output_format` to `png` unless the user asks otherwise.
-- The tool cannot save to disk (no `download_to`); download the returned URL yourself to a sensible path (e.g., `assets/banner.png`).
+**Text-to-image on fal:** `mcp__gateway__toolbox__call_tool(name="fal-ai__generate_image", arguments={...})`. Set `model` explicitly (the tool default is `flux_schnell`) and pass a `seed`. It accepts any endpoint id. `image_size` is an enum (`square`, `landscape_4_3`, `landscape_16_9`, `portrait_3_4`, `portrait_9_16`); `square` gave 512x512 on FLUX.1 and 1024x1024 on Nano Banana, so check the size you get. The tool can't save to disk: download the URL with `curl -sSL -o`.
 
-## ## Prompt style
+**Image input on fal (edits, reference images):** call the REST endpoint. The current edit models take `image_urls` (a list), while the gateway tools send one `image_url` and document only older FLUX options. The schema for any endpoint is at `https://fal.ai/api/openapi/queue/openapi.json?endpoint_id=<id>`.
 
-Nano Banana 2 rewards **detailed, descriptive prompts**. Include:
-
-- Subject and pose
-- Setting / background
-- Lighting and mood
-- Color palette
-- Style descriptors (e.g., "polished digital illustration", "cinematic", "flat vector", "watercolor")
-- Intended use (e.g., "suitable for a GitHub repository banner")
-
-Keep prompts one dense paragraph rather than a bullet list.
-
-## Procedure: text-to-image
-
-1. Confirm subject, vibe, aspect ratio with the user if unclear.
-2. Ensure the target directory exists (`mkdir -p` via Bash).
-3. Call `fal-ai__generate_image` with `model`, `prompt`, `image_size`, `output_format`.
-4. The result contains an image URL. Download it:
-   ```bash
-   curl -sSL -o "/absolute/target/path.png" "<image URL>"
-   ```
-5. Report the local path to the user.
-
-Example arguments:
-```
-{"model": "fal-ai/nano-banana-2", "prompt": "<detailed paragraph>", "image_size": "landscape_16_9", "output_format": "png"}
+```bash
+with-secrets bash -c 'curl -s https://fal.run/<endpoint> -H "Authorization: Key $FAL_KEY" \
+  -H "Content-Type: application/json" -d @args.json'   # returns images[0].url
 ```
 
-## Procedure: image input (transform / edit)
+`image_urls` accepts a `data:image/png;base64,...` URI, so a local file needs no staging. Turn off `enable_prompt_expansion` where it exists. Flatten transparent images onto the target background colour first.
 
-The tools take `image_url`, not a local path (the parameter is `image_url`, not `image_path`). For a local file, get a URL first: `fal-ai__upload_file`, or the `cloud-storage:stage-file` skill if installed.
+**Replicate:**
 
-1. Confirm the transformation with the user.
-2. Call `fal-ai__generate_image_from_image` (`image_url`, `prompt`, `strength`, `output_format`) with `model: "fal-ai/nano-banana-2/edit"`, or `fal-ai__edit_image` (`image_url`, `instruction`) for a plain edit. The nano-banana edit ids appear in `list_models` but the tools' documented options are the flux ones (`fal-ai/flux-2/edit`, `fal-ai/flux/dev/image-to-image`); if the call rejects the nano-banana id, fall back to one of those and tell the user. Neither tool has `dictionary_words`; put required text spellings in the prompt.
-3. Download the returned URL to the target folder with `curl -sSL -o`.
-4. Report the local path to the user.
+```bash
+with-secrets bash -c 'curl -s -X POST https://api.replicate.com/v1/models/<owner>/<name>/predictions \
+  -H "Authorization: Bearer $REPLICATE_API_TOKEN" -H "Content-Type: application/json" \
+  -H "Prefer: wait" -d "{\"input\":{\"prompt\":\"...\"}}"'   # returns output
+```
+
+Input fields differ per model: see `https://replicate.com/<owner>/<name>/api/schema`.
+
+## Prompt style
+
+Write one dense paragraph: subject and pose, background, palette, style ("flat vector", "watercolor") and intended use. With a reference image, list the features to keep, then the changes.
+
+## After generating
+
+Open the images and check them against the brief before reporting. Record endpoint, seed and prompt beside the files if they might be regenerated. Report the path and the estimated cost, from list prices.
