@@ -40,7 +40,7 @@ Input fields differ per model: see `https://replicate.com/<owner>/<name>/api/sch
 
 ## Prompt style
 
-Write one dense paragraph: subject and pose, background, palette, style ("flat vector", "watercolor") and intended use. With a reference image, list the features to keep, then the changes.
+Write one dense paragraph: subject and pose, background, palette, style ("flat vector", "watercolor") and intended use. With a reference image of a specific character, remove its background, send it as the only image, and write a short instruction: keep this exact character, then only the changes. Describing the character or saying "redraw" makes models drift to a generic one.
 
 ## After generating
 
