@@ -9,7 +9,7 @@ allowed-tools: Bash(cat *), Bash(test *), Bash(mkdir *), Bash(ls *), Bash(git *)
 
 Scaffold a structured, multi-stage image workflow inside the user's registered image workspace. Unlike `new-project` (a flat source/working/exports layout), a workflow expects **iteration**: generation, human review, revision, and export are explicit stages, each with their own folder and manifest entry.
 
-Cloud AI (Fal nano-banana via the gateway `fal-ai` tools) is wired in as an optional driver for the generation and revision stages.
+Cloud AI (Fal nano-banana via the fal REST queue API) is wired in as an optional driver for the generation and revision stages.
 
 ## When to use this vs. new-project
 
@@ -32,7 +32,7 @@ Ask (or infer if obvious):
 
 - **Name** — required. Slugify (lowercase, hyphens).
 - **Brief** — one or two sentences describing the deliverable.
-- **Cloud-AI driver** — default `fal-nano-banana` (via the `fal-ai__*` tools, called with `mcp__gateway__toolbox__call_tool`). `none` if the user is bringing their own images.
+- **Cloud-AI driver** — default `fal-nano-banana` (via the fal REST queue API, see skill `ai-graphics`). `none` if the user is bringing their own images.
 - **Expected rounds** — how many revision cycles to scaffold (default 3).
 - **Final aspect ratio / resolution** — for export-stage placeholders.
 
@@ -103,7 +103,7 @@ Subsequent sessions resume by reading `_manifest/workflow.json` and continuing f
 When the active stage is `ai`-typed and the driver is `fal-nano-banana`:
 
 1. Read the brief + references; compose a dense one-paragraph prompt (see `ai-graphics` skill for prompt style).
-2. Call `fal-ai__generate_image` with `model: "fal-ai/nano-banana-2"`, `image_size` (enum: `square`, `landscape_4_3`, `landscape_16_9`, `portrait_3_4`, `portrait_9_16`; no resolution parameter) and `output_format`. For revision rounds that build on a prior image, use `fal-ai__generate_image_from_image` with `image_url` (a URL, not a local path; `fal-ai__upload_file` makes one) and `model: "fal-ai/nano-banana-2/edit"`, falling back to `fal-ai/flux-2/edit` if rejected.
+2. Submit to `https://queue.fal.run/fal-ai/nano-banana-2` with `prompt`, `image_size` (enum: `square`, `landscape_4_3`, `landscape_16_9`, `portrait_3_4`, `portrait_9_16`; no resolution parameter) and `output_format`, then poll and fetch as in skill `ai-graphics` ("Run it"). For revision rounds that build on a prior image, use `fal-ai/nano-banana-2/edit` with `image_urls` (URLs or `data:` URIs, so a local file can be base64-encoded inline), falling back to `fal-ai/flux-2/edit` if rejected.
 3. Download the returned image URL into the stage folder:
    ```bash
    curl -sSL -o "$PROJ/03-generation/$(date +%s)-<slug>.png" "<fal URL>"
