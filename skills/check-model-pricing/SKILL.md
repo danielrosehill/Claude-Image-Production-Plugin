@@ -10,12 +10,12 @@ Preferred models live in `references/preferred-image-models.json` at the plugin 
 
 ## Check a price
 
-Run from the plugin root (`FAL_KEY` and `REPLICATE_API_TOKEN` are in Infisical):
+Run from the plugin root (needs `FAL_KEY` and `REPLICATE_API_TOKEN` in the environment; supply them from your own secrets manager or shell):
 
 ```bash
-with-secrets python3 scripts/model_price.py google/nano-banana-2.1 fal-ai/birefnet/v2
-with-secrets python3 scripts/model_price.py --search klein
-with-secrets python3 scripts/model_price.py --backend replicate black-forest-labs/flux-schnell
+python3 scripts/model_price.py google/nano-banana-2.1 fal-ai/birefnet/v2
+python3 scripts/model_price.py --search klein
+python3 scripts/model_price.py --backend replicate black-forest-labs/flux-schnell
 ```
 
 How to read the result:
@@ -31,7 +31,7 @@ fal generation responses carry no cost, so any total you report is an estimate f
 
 Do this when asked, or when the reference's `updated` date is more than about two months old and a real job depends on it.
 
-1. Snapshot the catalogue with `Tech-Graphics-Benchmark`: `with-secrets uv run python scripts/fal_catalogue.py` writes `catalogue/fal-YYYY-MM-DD.jsonl`. Diff it against the previous snapshot for new endpoints.
+1. Snapshot the catalogue with `Tech-Graphics-Benchmark`: `uv run python scripts/fal_catalogue.py` writes `catalogue/fal-YYYY-MM-DD.jsonl`. Diff it against the previous snapshot for new endpoints.
 2. Shortlist for the use case at about $0.05 per image or less, plus one reference model above that.
 3. Try candidates small, with skill `ai-eval/informal-image-eval` if it needs a proper round. A few images on the actual job is enough for a provisional entry.
 4. Edit the reference: change `default`, `budget` or `premium`, write what was seen in `evidence`, set `status`, and bump `updated`.

@@ -20,7 +20,7 @@ Generate banners, hero images, illustrations, social cards, characters and READM
 **On fal (text-to-image, edits, reference images):** the queue REST API with `$FAL_KEY`. Submit to `https://queue.fal.run/<endpoint>`, poll the returned `status_url` until `COMPLETED`, then GET `response_url`. Use the URLs from the submit response as they are: for endpoints with a subpath (`fal-ai/flux/dev`) status and result live under `owner/app` only.
 
 ```bash
-with-secrets bash -c '
+bash -c '
 R=$(curl -s https://queue.fal.run/<endpoint> -H "Authorization: Key $FAL_KEY" \
   -H "Content-Type: application/json" -d @args.json)
 S=$(echo "$R" | jq -r .status_url); O=$(echo "$R" | jq -r .response_url)
@@ -36,7 +36,7 @@ Model search and price: `GET https://api.fal.ai/v1/models?q=<words>&limit=5` and
 **Replicate:**
 
 ```bash
-with-secrets bash -c 'curl -s -X POST https://api.replicate.com/v1/models/<owner>/<name>/predictions \
+bash -c 'curl -s -X POST https://api.replicate.com/v1/models/<owner>/<name>/predictions \
   -H "Authorization: Bearer $REPLICATE_API_TOKEN" -H "Content-Type: application/json" \
   -H "Prefer: wait" -d "{\"input\":{\"prompt\":\"...\"}}"'   # returns output
 ```

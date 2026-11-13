@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Check image model list prices on fal (default) or Replicate. Prints JSON.
 
-  with-secrets python3 scripts/model_price.py google/nano-banana-2.1 fal-ai/birefnet/v2
-  with-secrets python3 scripts/model_price.py --search klein
-  with-secrets python3 scripts/model_price.py --backend replicate black-forest-labs/flux-schnell
+Needs FAL_KEY (fal) or REPLICATE_API_TOKEN (--backend replicate) in the environment.
+
+  python3 scripts/model_price.py google/nano-banana-2.1 fal-ai/birefnet/v2
+  python3 scripts/model_price.py --search klein
+  python3 scripts/model_price.py --backend replicate black-forest-labs/flux-schnell
 """
 import argparse
 import json
@@ -14,6 +16,13 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+
+def need_env(name):
+    v = os.environ.get(name)
+    if not v:
+        sys.exit("error: set " + name + " in the environment (from your own secrets manager or shell)")
+    return v
+
 
 FAL = "https://api.fal.ai/v1"
 UA = {"User-Agent": "model-price-check"}
@@ -34,7 +43,7 @@ def fetch(url, headers=None, raw=False):
 
 
 def fal_headers():
-    return {"Authorization": "Key " + os.environ["FAL_KEY"]}
+    return {"Authorization": "Key " + need_env("FAL_KEY")}
 
 
 def fal_page_price(endpoint):
@@ -80,7 +89,7 @@ def replicate_price(model):
     """Replicate's API exposes no price field, so this confirms the model and reads its page."""
     try:
         m = fetch("https://api.replicate.com/v1/models/" + model,
-                  {"Authorization": "Bearer " + os.environ["REPLICATE_API_TOKEN"]})
+                  {"Authorization": "Bearer " + need_env("REPLICATE_API_TOKEN")})
     except urllib.error.HTTPError as e:
         return {"backend": "replicate", "endpoint": model, "error": f"HTTP {e.code}"}
     out = {"backend": "replicate", "endpoint": model, "run_count": m.get("run_count"), "api_price": None}
