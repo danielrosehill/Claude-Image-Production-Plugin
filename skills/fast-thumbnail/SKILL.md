@@ -57,6 +57,6 @@ Do **not** use this skill when:
 ## Notes
 
 - `vipsthumbnail` shrink-on-load: for JPEG sources, it decodes at the smallest DCT scale ≥ target — so generating a 256-px thumbnail from a 4000-px JPEG is *much* faster than full decode + resize. This is the headline reason to use it.
-- Sharpen-on-shrink is on by default (vipsthumbnail applies a mild sharpen after downscale). Add `--no-rotate` and explicit `--linear` flags only if Daniel asks; the defaults are sensible for thumbnails.
+- Sharpen-on-shrink is on by default (vipsthumbnail applies a mild sharpen after downscale). Add `--no-rotate` and explicit `--linear` flags only if the user asks; the defaults are sensible for thumbnails.
 - For contact-sheet *layout* (multiple thumbs into a grid image), this skill produces the inputs; combine with ImageMagick `montage` separately.
 - ICC handling: vipsthumbnail strips ICC by default to keep file sizes small (right call for thumbs). If colour-accurate thumbs are needed, pass `--export-profile <path-to-srgb.icc>`.

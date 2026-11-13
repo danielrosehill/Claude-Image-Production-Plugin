@@ -24,7 +24,7 @@ Plus: **image → PDF on A4** for digital-printer workflows is a recurring task 
 ## Rejected / dropped (post-redirect)
 
 - **heic-to-jpeg** — subsumed by `web-ready` orchestrator (HEIC is just another input).
-- **develop-raw** — same. RAW flows through `web-ready`'s decode stage. Standalone skill deferred indefinitely; revisit only if Daniel wants explicit darktable preset application.
+- **develop-raw** — same. RAW flows through `web-ready`'s decode stage. Standalone skill deferred indefinitely; revisit only if the user wants explicit darktable preset application.
 - **Generic Real-ESRGAN skill** — replaced by `upscale-image` keyed on Upscayl-bin.
 - **tesseract / OCR** — wrong domain.
 - **mat2** — redundant with `scrub-metadata`.
@@ -56,4 +56,4 @@ Add the three new skills to the Skills section.
 
 1. **`convert-to-jxl`** — cheap, archival nice-to-have.
 
-Per Daniel's plans rule: as each item is implemented, **delete it from this file** rather than ticking it off.
+Per the user's plans rule: as each item is implemented, **delete it from this file** rather than ticking it off.
